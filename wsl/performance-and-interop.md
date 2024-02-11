@@ -21,9 +21,14 @@ enabled=true
 # required to run vscode in windows
 ```
 
-You then need to add something like this to your `~/.bashrc`:
-> Note: The order of `$PATH:...` is important to define search order. If reversed your shell searches on the `/mnt/...` and slows down WSL2 significantly.
+Now you need to add the VS Code binaries manually to your path. To automate this as much as possible you can leverage `WSLENV` (see [Share Environment Vars between WSL and Windows](https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/)).
 
-```sh
-export PATH="$PATH:/mnt/c/Users/[YOUR WINDOWS USER FOLDER]/AppData/Local/Programs/Microsoft VS Code/bin"
-```
+1. Add `%USERPROFILE%` to your WSL env: `setx WSLENV "USERPROFILE/p"`. The `/p` translates the path to a UNIX path.
+
+2. Add to your `~/.bashrc`:
+
+    ```sh
+    export PATH="$PATH:$USERPROFILE/AppData/Local/Programs/Microsoft VS Code/bin"
+    ```
+
+> Note: The order of `$PATH:...` is important to define search order. If reversed your shell searches on the `/mnt/...` and slows down WSL2 significantly.
